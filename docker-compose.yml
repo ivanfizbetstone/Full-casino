@@ -3,7 +3,7 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ./frontend
+      context: ./casino-front
       dockerfile: Dockerfile
     ports:
       - 80:80
@@ -14,7 +14,7 @@ services:
   backend:
     restart: always
     container_name: backend
-    build: ./backend
+    build: ./casino-back
     expose:
       - 5000
     volumes:

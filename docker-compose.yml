@@ -21,6 +21,6 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - /home/ubuntu/ssl:/etc/nginx/certs
+      - /data/certs:/etc/nginx/certs
 
   

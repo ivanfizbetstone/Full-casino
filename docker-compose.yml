@@ -42,7 +42,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/root/Casino/views/
+      device: /root/Full-casino/
       o: bind
 
 networks:

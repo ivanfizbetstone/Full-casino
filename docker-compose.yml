@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  nodejs:
+  react:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: casino-front/Dockerfile
     image: nodejs
     container_name: nodejs
     restart: unless-stopped

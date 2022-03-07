@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  react:
+  nodejs:
     build:
       context: .
-      dockerfile: casino-front/Dockerfile
+      dockerfile: casino-fromnt/Dockerfile
     image: nodejs
     container_name: nodejs
     restart: unless-stopped
@@ -31,7 +31,7 @@ services:
       - certbot-var:/var/lib/letsencrypt
       - web-root:/var/www/html
     depends_on:
-      - react
+      - webserver
     command: certonly --webroot --webroot-path=/var/www/html --email ivan.zubillaga@sistemasabstractos.com --agree-tos --no-eff-email --staging -d sistemasabstractos.com.mx  -d www.sistemasabstractos.com.mx
 volumes:
   certbot-etc:

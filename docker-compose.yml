@@ -3,8 +3,8 @@ version: '3'
 services:
   nodejs:
     build:
-      context: .
-      dockerfile: /casino-front/Dockerfile
+      context: /casino-front
+      dockerfile: /Dockerfile
     image: nodejs
     container_name: nodejs
     restart: unless-stopped

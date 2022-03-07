@@ -11,6 +11,8 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    ports:
+      - "3000:3000"
   webserver:
     image: nginx:mainline-alpine
     container_name: webserver

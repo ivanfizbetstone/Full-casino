@@ -3,7 +3,7 @@ version: '3'
 services:
   nodejs:
     build:
-      context: /casino-front
+      context: /Casino/casino-front
       dockerfile: /Dockerfile
     image: nodejs
     container_name: nodejs

@@ -1,26 +1,48 @@
-version: "3"
-services:
-  backend:
-    restart: always
-    container_name: backend
-    build: ./casino-back
-    expose:
-      - 5000
-    volumes:
-      - ./backend:/usr/src/app
-    environment:
-      - FLASK_ENV=development
-      - FLASK_APP=app.py
-      - FLASK_DEBUG=1
-  frontend:
-    container_name: frontend
-    build:
-      context: ./casino-front
-      dockerfile: Dockerfile
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - /data/certs:/etc/nginx/certs
+version: '3'
 
-  
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: nodejs
+    restart: unless-stopped
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - nodejs
+    networks:
+      - app-network
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email ivan.zubillaga@sistemasabstractos.com --agree-tos --no-eff-email --staging -d sistemasabstractos.com.mx  -d www.sistemasabstractos.com.mx
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/root/casino/views/
+      o: bind
+
+networks:
+  app-network:
+    driver: bridge

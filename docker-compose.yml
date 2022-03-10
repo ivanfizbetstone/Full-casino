@@ -29,8 +29,8 @@ services:
     container_name: webserver
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "81:81"
+      - "7342:7342"
     volumes:
       - web-root:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
@@ -38,7 +38,7 @@ services:
       - certbot-var:/var/lib/letsencrypt
       - dhparam:/etc/ssl/certs
     depends_on:
-      - nodejs
+      - flask
     networks:
       - app-network
   certbot:
@@ -50,7 +50,7 @@ services:
       - web-root:/var/www/html
     depends_on:
       - webserver
-    command: certonly --webroot --webroot-path=/var/www/html --email ivan.zubillaga@sistemasabstractos.com --agree-tos --no-eff-email --force-renewal -d sistemasabstractos.com.mx -d www.sistemasabstractos.com.mx
+    command: certonly --webroot --webroot-path=/var/www/html --email ivan.zubillaga@sistemasabstractos.com --agree-tos --no-eff-email --force-renewal -d api.sistemasabstractos.com.mx -d www.api.sistemasabstractos.com.mx
 volumes:
   dhparam:
     driver: local

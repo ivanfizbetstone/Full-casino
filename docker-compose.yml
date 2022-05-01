@@ -34,35 +34,24 @@ services:
     volumes:
       - web-root:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
-      - ./certbot/www:/var/www/certbot/:ro
+      - ssl-keys:/etc/letsencrypt/live/intergaming.com/
     depends_on:
       - nodejs
     networks:
       - app-network
-  certbot:
-    image: certbot/certbot:latest
-    container_name: certbot
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-    depends_on:
-      - webserver
-    command: certonly --webroot --webroot-path=/var/www/html --email ivan.zubillaga@sistemasabstractos.com --agree-tos --no-eff-email --force-renewal -d intergaming.com -d www.intergaming.com
 volumes:
-  dhparam:
+  ssl-keys:
     driver: local
     driver_opts:
       type: none
-      device: /root/Full-casino/dhparam/
+      device: /etc/letsencrypt/live/intergaming.com/
       o: bind
-  certbot-etc:
-  certbot-var:
   web-root:
     driver: local
     driver_opts:
       type: none
       device: /root/Full-casino/
       o: bind
-
 networks:
   app-network:
     driver: bridge
